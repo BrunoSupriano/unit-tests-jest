@@ -27,3 +27,4 @@ All execution artifacts can be found in `./coverage`, if you want to remove thes
 </ul>
 
 ## Teste Sonar
+- rev:2
