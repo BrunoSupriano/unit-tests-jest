@@ -3,57 +3,50 @@ class PipelineEtl {
     this.job = job;
   }
 
-  // 1
   obterNome() {
     return this.job.nome;
   }
 
-  // 2
   obterStatus() {
     return this.job.status;
   }
 
-  // 3
   obterLinhasProcessadas() {
     return this.job.linhasProcessadas;
   }
 
-  // 4
   obterTentativas() {
     return this.job.tentativas;
   }
 
-  // 5
+  obterMensagemErro() {
+    return this.job.mensagemErro;
+  }
+
   estaPendente() {
     return this.job.status === "pendente";
   }
 
-  // 6
   estaRodando() {
     return this.job.status === "rodando";
   }
 
-  // 7
   estaConcluido() {
     return this.job.status === "concluido";
   }
 
-  // 8
   falhou() {
     return this.job.status === "falhou";
   }
 
-  // 9
   excedeuTentativas() {
     return this.job.tentativas >= this.job.maxTentativas;
   }
 
-  // 10
   podeExecutar() {
     return this.estaPendente() && !this.excedeuTentativas();
   }
 
-  // 11
   iniciar() {
     if (!this.podeExecutar()) return false;
 
@@ -64,7 +57,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 12
   registrarLinhas(quantidade) {
     if (quantidade <= 0) return false;
     if (!this.estaRodando()) return false;
@@ -73,7 +65,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 13
   registrarErros(quantidade) {
     if (quantidade <= 0) return false;
     if (!this.estaRodando()) return false;
@@ -82,7 +73,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 14
   calcularTaxaDeErro() {
     const total = this.job.linhasProcessadas + this.job.linhasComErro;
     if (total === 0) return 0;
@@ -90,12 +80,10 @@ class PipelineEtl {
     return Number(((this.job.linhasComErro / total) * 100).toFixed(2));
   }
 
-  // 15
   atingiuLimiteDeErro() {
     return this.calcularTaxaDeErro() > this.job.limiteErroPercentual;
   }
 
-  // 16
   concluir() {
     if (!this.estaRodando()) return false;
 
@@ -111,7 +99,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 17
   marcarFalha(mensagem) {
     if (!this.estaRodando()) return false;
     if (!mensagem) return false;
@@ -122,7 +109,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 18
   tentarNovamente() {
     if (!this.falhou()) return false;
     if (this.excedeuTentativas()) return false;
@@ -131,7 +117,6 @@ class PipelineEtl {
     return true;
   }
 
-  // 19
   executar(extrator) {
     if (!this.iniciar()) return false;
 
@@ -142,7 +127,6 @@ class PipelineEtl {
     return this.concluir();
   }
 
-  // 20
   gerarResumo() {
     return {
       nome: this.job.nome,

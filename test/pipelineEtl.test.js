@@ -15,7 +15,7 @@ const criarJobBase = () => ({
 });
 
 describe("pipeline etl", () => {
-  test("deve retornar dados basicos do job", () => {
+  test("deve retornar dados basicos do job", () =>   {
     // Arrange
     const pipeline = new PipelineEtl(criarJobBase());
 
